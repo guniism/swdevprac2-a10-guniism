@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root{
+  background-color: #F1F3F2;
+}
+/* :root {
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
@@ -90,7 +98,13 @@ body {
 }
 
 body {
-  background-color: rgb(247, 245, 242);
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
 a {
@@ -102,4 +116,4 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */
