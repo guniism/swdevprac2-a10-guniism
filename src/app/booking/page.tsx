@@ -31,7 +31,8 @@ export default function BookingPage() {
     // }, [nameLastname, tel, venue, bookingDate]);
 
     const dispatch = useDispatch<AppDispatch>();
-    const booking = () => {
+    const booking = (e: React.FormEvent) => {
+        e.preventDefault();
         if(nameLastname && tel && venue && bookingDate){
             const item: BookingItem = {
                 nameLastname: nameLastname,
@@ -43,6 +44,10 @@ export default function BookingPage() {
             dispatch(addBooking(item));
         }
     }
+    const s = useAppSelector((state) => state.bookSlice);
+    const bookItems = useAppSelector((state) => state.bookSlice.bookItems);
+    console.log('bookSlice:', s); // Log this to check its state
+    console.log('bookItems:', bookItems);
 
     return (
     <main>
@@ -50,7 +55,7 @@ export default function BookingPage() {
         
         {/* <div className="text-2xl text-center">{id}</div> */}
 
-        <form className="flex flex-col max-w-md mx-auto space-y-5 p-5">  
+        <form className="flex flex-col max-w-md mx-auto space-y-5 p-5" onSubmit={booking}>  
             <TextField variant="standard" name="Name-Lastname" label="Name-Lastname" placeholder="Enter your name" value={nameLastname} onChange={(e) => setNameLastname(e.target.value)}></TextField>
             <TextField variant="standard" name="Contact-Number" label="Contact-Number" placeholder="Enter contact number" value={tel} onChange={(e) => setTel(e.target.value)}></TextField>
             <Select variant="standard" id="venue" className="h-12" value={venue} onChange={(e) => setVenue(e.target.value as "Bloom" | "Spark" | "GrandTable")}>
@@ -63,7 +68,7 @@ export default function BookingPage() {
                 (value:Dayjs) => {setbookingDate(value); }
             }/>
 
-            <button name="Book Venue" type="submit" className="rounded bg-[#055D70] text-white font-medium h-14 hover:bg-[#277381]" onClick={booking}>Book Venue</button>
+            <button name="Book Venue" type="submit" className="rounded bg-[#055D70] text-white font-medium h-14 hover:bg-[#277381]">Book Venue</button>
         </form>
 
     </main>
