@@ -42,12 +42,16 @@ export default function BookingPage() {
             }
             // console.log("State Updated:", { nameLastname, tel, venue, bookingDate });
             dispatch(addBooking(item));
+            setNameLastname("");
+            setTel("");
+            setVenue("")
+            setbookingDate(null);
         }
     }
-    const s = useAppSelector((state) => state.bookSlice);
-    const bookItems = useAppSelector((state) => state.bookSlice.bookItems);
-    console.log('bookSlice:', s); // Log this to check its state
-    console.log('bookItems:', bookItems);
+    // const s = useAppSelector((state) => state.bookSlice);
+    // const bookItems = useAppSelector((state) => state.bookSlice.bookItems);
+    // console.log('bookSlice:', s); // Log this to check its state
+    // console.log('bookItems:', bookItems);
 
     return (
     <main>
