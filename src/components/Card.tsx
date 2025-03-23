@@ -32,7 +32,7 @@ export default function Card({venueName, imgSrc, onUpdateList} : {venueName:stri
                     />
                 </div>
                 <div className="h-[30%] p-[10px] space-y-2">
-                    <h4 className="font-semibold text-[16px] text-[#055D70]">"{venueName}</h4>
+                    <h4 className="font-semibold text-[16px] text-[#055D70]">{venueName}</h4>
                     {/* <p className="text-xs">A stunning bouquet hall where love blossoms and unforgettable memories are made.</p> */}
                     {
                         onUpdateList ?

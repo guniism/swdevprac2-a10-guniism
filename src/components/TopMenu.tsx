@@ -10,19 +10,26 @@ export default async function TopMenu(){
     return(
         <div className="bg-white shadow-sm">
             <div className="w-full mx-auto px-2 flex justify-between">
-                {
-                    session ? <Link href="/api/auth/signout" className='flex items-center text-[#055D70] hover:text-[#0d7c94]'>
-                        <div>
-                            <b className="font-semibold ">Sign-Out of {session.user.name}</b>
-                        </div>
-                    </Link> 
-                    : <Link href="/api/auth/signin" className='flex items-center text-[#055D70] hover:text-[#0d7c94]'>
-                        <div>
-                            <b className="font-semibold ">Sign-In</b>
-                        </div>
+                <div className='flex flex-row space-x-5'>
+                    {
+                        session ? <Link href="/api/auth/signout" className='flex items-center text-[#055D70] hover:text-[#0d7c94]'>
+                            <div>
+                                <b className="font-semibold ">Sign-Out of {session.user.name}</b>
+                            </div>
+                        </Link> 
+                        : <Link href="/api/auth/signin" className='flex items-center text-[#055D70] hover:text-[#0d7c94]'>
+                            <div>
+                                <b className="font-semibold ">Sign-In</b>
+                            </div>
+                        </Link>
+                    }
+                    <Link href="/mybooking" className='flex items-center text-[#055D70] hover:text-[#0d7c94]'>
+                            <div>
+                                <b className="font-semibold ">My Booking</b>
+                            </div>
                     </Link>
+                </div>
 
-                }
 
 
                 <div className="h-14 flex flex-row-reverse ">

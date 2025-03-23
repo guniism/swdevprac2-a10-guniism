@@ -1,5 +1,6 @@
 import Image from "next/image";
 import getVenue from "@/libs/getVenue";
+import Link from "next/link";
 export default async function VenueDetailPage( {params} : {params: {vid:string}}){
     const venueDetail = await getVenue(params.vid);
     
@@ -20,14 +21,20 @@ export default async function VenueDetailPage( {params} : {params: {vid:string}}
                     width={0} height={0} sizes="100vw"
                     className="rounded-lg w-[30%]"
                 />
-                <div className="text-left">
-                    <div className="text-md mx-5">Name: {venueDetail.data.name}</div>
-                    <div className="text-md mx-5">Address: {venueDetail.data.address}</div>
-                    <div className="text-md mx-5">District: {venueDetail.data.district}</div>
-                    <div className="text-md mx-5">Postal Code: {venueDetail.data.postalcode}</div>
-                    <div className="text-md mx-5">Tel: {venueDetail.data.tel}</div>
-                    <div className="text-md mx-5">Daily Rate: {venueDetail.data.dailyrate}</div>
-                </div>        
+                <div className="text-left mx-5">
+                    <div className="text-md">Name: {venueDetail.data.name}</div>
+                    <div className="text-md">Address: {venueDetail.data.address}</div>
+                    <div className="text-md">District: {venueDetail.data.district}</div>
+                    <div className="text-md">Postal Code: {venueDetail.data.postalcode}</div>
+                    <div className="text-md">Tel: {venueDetail.data.tel}</div>
+                    <div className="text-md">Daily Rate: {venueDetail.data.dailyrate}</div>
+                    <Link href={`/booking?id=${params.vid}`}>
+                    <button className="rounded bg-[#055D70] text-white font-medium h-10 w-32 hover:bg-[#277381]">
+                        Book Venue
+                    </button>
+                </Link>   
+                </div>    
+                
             </div>
         </main>
     )

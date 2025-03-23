@@ -1,51 +1,69 @@
+"use client"
 import DateReserve from "@/components/DateReserve";
 import { Select, MenuItem, TextField } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import getUserProfile from "@/libs/getUserProfile";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import { useDispatch, UseDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { BookingItem } from "../../../interface";
+import { useEffect } from "react";
+import { addBooking } from "@/redux/features/bookSlice";
+import { useAppSelector } from "@/redux/store";
 
-export default async function BookingPage() {
-    const session = await getServerSession(authOptions);
+export default function BookingPage() {
+    // const session = getServerSession(authOptions);
+    // if(!session || !session.user.token) return null;
 
-    if(!session || !session.user.token) return null;
+    const urlParams = useSearchParams();
+    const id = urlParams.get("id");
 
-    const profile = await getUserProfile(session.user.token);
-    var createdAt = new Date(profile.data.createdAt);
+    const [nameLastname, setNameLastname] = useState<string>("");
+    const [tel, setTel] = useState<string>("");
+    const [venue, setVenue] = useState<string>("Bloom");
+    const [bookingDate, setbookingDate] = useState<Dayjs | null>(null);
+    // console.log(bookingDate)
+    // useEffect(() => {
+    //     console.log("State Updated:", { nameLastname, tel, venue, bookingDate });
+    // }, [nameLastname, tel, venue, bookingDate]);
+
+    const dispatch = useDispatch<AppDispatch>();
+    const booking = () => {
+        if(nameLastname && tel && venue && bookingDate){
+            const item: BookingItem = {
+                nameLastname: nameLastname,
+                tel: tel,
+                venue: venue,
+                bookDate: dayjs(bookingDate).format("YYYY/MM/DD"),
+            }
+            // console.log("State Updated:", { nameLastname, tel, venue, bookingDate });
+            dispatch(addBooking(item));
+        }
+    }
 
     return (
     <main>
         <h1 className='text-3xl font-bold text-center mt-10 mb-5'>Venue Booking</h1>
         
-        <div className="text-2xl text-center">{profile.data.name}</div>
-        <table className="table-auto border-separate border-spacing-2 mx-auto">
-            <tbody>
-                <tr>
-                <td>Email</td>
-                <td>{profile.data.email}</td>
-                </tr>
-                <tr>
-                <td>Tel.</td>
-                <td>{profile.data.tel}</td>
-                </tr>
-                <tr>
-                <td>Member Since</td>
-                <td>{createdAt.toString()}</td>
-                </tr>
-            </tbody>
-        </table>
+        {/* <div className="text-2xl text-center">{id}</div> */}
 
         <form className="flex flex-col max-w-md mx-auto space-y-5 p-5">  
-            <TextField variant="standard" name="Name-Lastname" label="Name-Lastname" placeholder="Enter your name"></TextField>
-            <TextField variant="standard" name="Contact-Number" label="Contact-Number" placeholder="Enter contact number"></TextField>
-            <Select variant="standard" id="venue" className="h-12">
+            <TextField variant="standard" name="Name-Lastname" label="Name-Lastname" placeholder="Enter your name" value={nameLastname} onChange={(e) => setNameLastname(e.target.value)}></TextField>
+            <TextField variant="standard" name="Contact-Number" label="Contact-Number" placeholder="Enter contact number" value={tel} onChange={(e) => setTel(e.target.value)}></TextField>
+            <Select variant="standard" id="venue" className="h-12" value={venue} onChange={(e) => setVenue(e.target.value as "Bloom" | "Spark" | "GrandTable")}>
                     <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
                     <MenuItem value="Spark">Spark Space</MenuItem>
                     <MenuItem value="GrandTable">The Grand Table</MenuItem>
             </Select>
 
-            <DateReserve />
+            <DateReserve onDateChange={
+                (value:Dayjs) => {setbookingDate(value); }
+            }/>
 
-            <button name="Book Venue" type="submit" className="rounded bg-[#055D70] text-white font-medium h-14 hover:bg-[#277381]">Book Venue</button>
+            <button name="Book Venue" type="submit" className="rounded bg-[#055D70] text-white font-medium h-14 hover:bg-[#277381]" onClick={booking}>Book Venue</button>
         </form>
 
     </main>
